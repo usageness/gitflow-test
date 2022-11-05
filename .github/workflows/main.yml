@@ -10,7 +10,11 @@ defaults:
   run:
     working-directory: frontend
 
-permissions: write-all
+permissions:
+  contents: read
+  pages: write
+  deployments: write
+  id-token: write
 
 jobs:
   deployment:
@@ -39,7 +43,6 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
-          # Upload entire repository
           path: './frontend/build'
       - name: Deploy to GitHub Pages
         id: deployment
@@ -63,6 +66,6 @@ jobs:
       - name: comment PR
         uses: marocchino/sticky-pull-request-comment@v2
         with:
-          GITHUB-TOKEN: ${{secrets.GITHUB_TOKEN}}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
           message: |
             ${{ steps.format_comment_message.outputs.comment}}[${{ steps.deployment.outputs.page_url }}](${{ steps.deployment.outputs.page_url }})
