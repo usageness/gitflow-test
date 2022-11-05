@@ -69,6 +69,22 @@ sonarqube:
 
 위 경우엔 sonarqube는 build 후에 실행된다.
 
+### cache
+
+npm 등 다운로드 작업들을 캐시 가능
+
+```shell
+uses: actions/setup-node@v3.5.1
+  with:
+    node-version: 16
+    cache: 'npm'
+    cache-dependency-path: frontend/package-lock.json
+```
+
+![image](https://user-images.githubusercontent.com/28296575/200133260-95531844-10ca-400b-bdf4-b5efe1896124.png)
+
+캐시 사용 후 npm install & build 작업 시간 29s -> 20s 으로 감소
+
 # 에러 노트
 
 ### 1. actions/checkout 을 해주지 않았을때
