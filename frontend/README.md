@@ -35,7 +35,32 @@ permissions:
   id-token: write
 ```
 
-### 4. 기타 Warning들
+### 4. OIDC 권한 문제
+
+> Failed to create deployment for ~~~. Invalid actions OIDC token due to sub_invalid, validate around ~~~
+
+- https://github.com/actions/deploy-pages/issues/9
+
+
+```shell
+permissions:
+  contents: read
+  pages: write
++ deployments: write
+  id-token: write
+
+...
+
+jobs:
+  deployment:
+    name: Deployment-action
+    runs-on: ubuntu-latest
++   environment:
++     name: github-pages
++     url: ${{ steps.deployment.outputs.page_url }}
+```
+
+### 5. 기타 Warning들
 
 > Warning: The `set-output` command is deprecated and will be disabled soon. Please upgrade to using Environment Files. For more information see: https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/
 
