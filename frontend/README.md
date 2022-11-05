@@ -9,3 +9,9 @@ Error: An error occurred trying to start process '/usr/bin/bash' with working di
 ```
 
 github action이 정상적인 경로를 찾지 못하는 듯 하다.
+
+### 2. script에서 문법 오타
+
+```shell
+[].join('\n); // ' 누락
+```
