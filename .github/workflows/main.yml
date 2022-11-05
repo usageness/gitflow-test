@@ -28,13 +28,18 @@ jobs:
         run: |
           npm install
           npm run build
-          
+
       - name: Deploy to github pages
-        uses: peaceiris/actions-gh-pages@v3
+        uses: actions/configure-pages@v2
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build
-          
+          # Upload entire repository
+          path: './frontend/build'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
+
       - name: Format comment message
         id: format_comment_message
         uses: actions/github-script@v3
@@ -45,7 +50,7 @@ jobs:
             const deployURL = 'https://usageness.github.io/gitflow-test/';
             const comments = [
               `## Deploy Preview`,
-              `🔥 **check your project preview here!** : [${deployURL}](${deployURL})`
+              `🔥 **check your project preview here!** : `
             ].join('\n');
             
             core.setOutput('comment', comments);
@@ -55,4 +60,4 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           message: |
-            ${{ steps.format_comment_message.outputs.comment}}
+            ${{ steps.format_comment_message.outputs.comment}}[${{ steps.deployment.outputs.page_url }}](${{ steps.deployment.outputs.page_url }})
