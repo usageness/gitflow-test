@@ -5,27 +5,32 @@ on:
       - develop
       - master
     paths: "frontend/*"
-    
+
+defaults:
+  run:
+    working-directory: frontend
+
 jobs:
   deployment:
     name: Deployment-action
     runs-on: ubuntu-latest
-    env:
-      working-directory: ./frontend
     steps:
       - name: Setting node
         uses: actions/setup-node@v3.5.1
         with:
           node-version: 16
+          
       - name: npm install & build
         run: |
           npm install
           npm run build
+          
       - name: Deploy to github pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./build
+          
       - name: Format comment message
         id: format_comment_message
         uses: actions/github-script@v3
@@ -39,6 +44,7 @@ jobs:
             ].join('\n);
             
             core.setOutput('comment', comment);
+            
       - name: comment PR
         uses: marocchino/sticky-pull-request-comment@v2
         with:
