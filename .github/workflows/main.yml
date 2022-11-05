@@ -10,11 +10,7 @@ defaults:
   run:
     working-directory: frontend
 
-permissions:
-  contents: write
-  pages: write
-  deployments: write
-  id-token: write
+permissions: write-all
 
 jobs:
   deployment:
