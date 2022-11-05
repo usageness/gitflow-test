@@ -41,11 +41,12 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
+          
             const deployURL = 'https://usageness.github.io/gitflow-test/';
             const comments = [
               `## Deploy Preview`,
               `🔥 **check your project preview here!** : [${deployURL}](${deployURL})`
-            ].join('\n);
+            ].join('\n');
             
             core.setOutput('comment', comment);
             
