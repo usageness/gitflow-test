@@ -1,4 +1,73 @@
-Q. 여기도 변경이 있어야 작동이 되는걸까? A. **Yes**
+# 정리
+
+### on
+
+이벤트의 트리거가 될 동작을 정하는 속성
+
+```shell
+on:
+  pull_request:
+    branches:
+      - develop
+      - master
+    paths: "frontend/*"
+```
+
+PR이 해당 branch에 들어왔을때, paths 경로 상에 파일 변경이 있으면 트리거된다.
+
+### working-directory
+
+작업이 실행될 디렉토리 위치를 설정
+
+```shell
+defaults:
+  run:
+    working-directory: frontend
+```
+
+run의 기본값으로 frontend 디렉토리가 설정됨. (기본은 root)
+
+### permission
+
+GITHUB_TOKEN의 권한을 설정. 자세한건 [여기](https://docs.github.com/en/actions/security-guides/automatic-token-authentication#permissions-for-the-github_token)를 참고
+
+```shell
+permissions:
+  contents: read
+  pages: write
+  deployments: write
+  id-token: write
+  pull-requests: write
+```
+
+### jobs
+
+트리거되면 실행될 작업들. 기본적으로는 병렬적으로 실행.
+
+```shell
+jobs:
+  something:
+    name: example_name
+      steps:
+        - name: step1
+          ...
+```
+
+steps 내부의 작업은 단계별로 실행
+
+jobs의 순서를 지정해주고 싶다면 needs 키워드 사용하기.
+
+```shell
+build:
+  runs-on: ubuntu-latest
+  ...
+  
+sonarqube:
+  needs: build
+  runs-on: ubuntu-latest
+```
+
+위 경우엔 sonarqube는 build 후에 실행된다.
 
 # 에러 노트
 
